@@ -1,0 +1,32 @@
+/*header*/
+#header{
+    color: white;
+    background-color: rgb(83, 83, 83);
+    background-size: cover;
+    background-position-y: 40%;
+    position:relative !important;   
+}
+
+/*header container */
+.jumbotron {
+    padding: 1rem;
+    border-radius: 0;
+}
+
+/*city name listed on top*/
+#header h1{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 400%;
+    font-weight: bold;
+    text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+}
+
+/*search-box*/
+#search-city{
+    width:80%;
+}
+
