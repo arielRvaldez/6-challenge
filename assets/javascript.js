@@ -6,7 +6,7 @@ var lastCity = "";
 var getCurrentConditions = (event) => {
     let city = $('#search-city').val();
     currentCity= $('#search-city').val();
-    //OpenWeather URL with imperial units//
+    //OpenWeather URL with imperial units with JSON//
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial" + "&APPID=" + APIkey;
     fetch(queryURL)
     .then((response) => {
@@ -23,12 +23,28 @@ var getCurrentConditions = (event) => {
         let currentTimeZoneOffset = response.timezone;
         let currentTimeZoneOffsetHours = currentTimeZoneOffset / 60 / 60;
         //moment.js//
-        let currentMoment = moment.unix(currentTimeUTC).utc().utcOffset(currentTimeZoneOffsetHours);
+        var currentMoment = moment.unix(currentTimeUTC).utc().utcOffset(currentTimeZoneOffsetHours);
         //lists the cities//
         renderCities();
         //5day forecast for searched city//
-        
+        get5DayForecast(event);
+        //header for searched city//
+        $('#header-text').text(response.name);
+        //HTML for searched results//
+        var currentWeatherHTML = 
+            <h3>${response.name} ${currentMoment.format("(MM/DD/YY)")}<><img src="${currentWeatherIcon}">
+            </h3>
+            <ul class="list-unstyled">
+            <li>Temperature: ${response.main.temp}&#8457;</li>
+            <li>Humidity: ${response.main.humidity}%</li>
+            <li>Wind Speed: ${response.wind.speed} mph</li>
+            <li id="uvIndex">UV Index:</li>
+        </ul>;
 
+        $('#current-weather').html(currentWeatherHTML);
+        let latitude = response.coord.lat;
+        let longitude = response.coord.lon;
+        let uvQueryURL = "http://api.openweathermap.org/geo/1.0/direct?q="
     }
 
     }
