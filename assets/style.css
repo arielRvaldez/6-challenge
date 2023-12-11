@@ -57,5 +57,15 @@
 }
 
 .uv-moderate{
-    
+   background-color: orange;
+   border-radius: 5px;
+   color: white; 
 }
+
+.uv-severe{
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+}
+
+
