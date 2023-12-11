@@ -1,6 +1,8 @@
 var APIkey = "e5ef4fa9d75ce2035e478b8919ac7928";
 var currentCity = "";
 var lastCity = "";
+var currentweather =document.querySelector('#current-weather')
+var fivedayforecast =document.querySelector('#5day-forecast')
 
 //current weather display//
 var getCurrentConditions = (event) => {
@@ -18,32 +20,23 @@ var getCurrentConditions = (event) => {
         $('#search-error').text("");
         //current weather icons//
         var currentWeatherIcon="https://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
-        //timezones//
-        let currentTimeUTC = response.dt;
-        let currentTimeZoneOffset = response.timezone;
-        let currentTimeZoneOffsetHours = currentTimeZoneOffset / 60 / 60;
-        //moment.js//
-        var currentMoment = moment.unix(currentTimeUTC).utc().utcOffset(currentTimeZoneOffsetHours);
         //lists the cities//
         renderCities();
-        //5day forecast for searched city//
-        get5DayForecast(event);
+        //**currentweather for searched city//
+        currentweather(event);
         //header for searched city//
         $('#header-text').text(response.name);
-        //HTML for searched results//
-        var currentWeatherHTML = 
-            <h3>${response.name} ${currentMoment.format("(MM/DD/YY)")}<img src="${currentWeatherIcon}">
-            </h3>
-            <ul class="list-unstyled">
-            <li>Temperature: ${response.main.temp}&#8457;</li>
-            <li>Humidity: ${response.main.humidity}%</li>
-            <li>Wind Speed: ${response.wind.speed} mph</li>
-        </ul>;
-        $('#current-weather').html(currentWeatherHTML);
-            return response.json();
-        }
-    );
-        
-
+    )}
+    
+    $(document).ready(function(){
+        //search button//
+        $("#search-button").on("click", function () {
+          //get value in input search-value.
+          var searchTerm = $("#search-city").val();
+          //empty input field.
+          $("#search-city").val("");
+          weatherFunction(searchTerm);
+          weatherForecast(searchTerm);
+        });
 
 
