@@ -36,3 +36,26 @@
     display: inline-block;
 }
 
+/*current weather*/
+#current-weather{
+    padding-left: 15px;
+}
+
+/*weather display*/
+#weather-display{
+    width: 9rem;
+    background-color: #0275d8;
+    color: white;
+    text-align: center;
+}
+
+/*weather icons ***/
+.uv-favorable{
+    background-color: green;
+    border-radius: 5px;
+    color: white;
+}
+
+.uv-moderate{
+    
+}
