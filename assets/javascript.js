@@ -18,6 +18,16 @@ var getCurrentConditions = (event) => {
         $('#search-error').text("");
         //current weather icons//
         var currentWeatherIcon="https://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
+        //timezones//
+        let currentTimeUTC = response.dt;
+        let currentTimeZoneOffset = response.timezone;
+        let currentTimeZoneOffsetHours = currentTimeZoneOffset / 60 / 60;
+        //moment.js//
+        let currentMoment = moment.unix(currentTimeUTC).utc().utcOffset(currentTimeZoneOffsetHours);
+        //lists the cities//
+        renderCities();
+        //5day forecast for searched city//
+        
 
     }
 
