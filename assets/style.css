@@ -30,3 +30,9 @@
     width:80%;
 }
 
+/*search button*/
+#search-button{
+    width: 15px;
+    display: inline-block;
+}
+
