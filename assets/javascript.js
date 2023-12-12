@@ -6,8 +6,8 @@ var currentweather = document.querySelector('#current-weather')
 var fivedayforecast = document.querySelector('#five-day-forecast')
 var searchform = document.querySelector('#search-form')
 
-renderCurrent();
-renderForecast();
+renderCurrent("");
+renderForecast("");
 
 //current weather display//
 function getCurrentConditions(event) {
@@ -68,7 +68,7 @@ function getforecast(event) {
     let city = $('#search-city').val();
     foreCast = $('#search-city').val();
     //OpenWeather URL with imperial units with JSON//
-    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?=q=" + city + "&units=imperial" + "&APPID=" + APIkey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + lat + lon + "&units=imperial" + "&APPID=" + APIkey;
 
     fetch(queryURL)
         .then(function (response) {
@@ -88,6 +88,7 @@ function displayWeather(data, city) {
 }
 
 function renderForecast(city, weather) {
+    for (let i = 0; i < response.list.length; i++) {
     var temp = weather.main.temp;
     var wind = weather.wind.speed;
     var humidity = weather.main.humidity;
@@ -116,10 +117,15 @@ function renderForecast(city, weather) {
     fivedayforecast.append(card);
 }
 //local storage//
-function then(response) {
-     saveCity(city);
-    $('#search-error').text("");
-    $('#header-text').text(response.name);
+function addToLocalStorageArray(saveCity, cityName) {
+    //retrieve the existing array from local storage
+     var existing =localStorage.getItem(saveCity);
+    //if no existing data, create an array otherwise convert storage to array//
+    existing = existing ? JSON.parse(existing) : [];
+    //add new city to array//
+    existing.push(cityName);
+    //save back to local storage//
+    localStorage.setItem(key, JSON.stringify(existing));
 }
 
 //pulls prior searched city//
@@ -149,5 +155,5 @@ function weatherFunction(searchTerm) {
 //select previous searched city//
 history.addEventListener('click', buttonClickHandler);
 
-searchform.addEventListener('submit', getCurrentConditions);
-
+searchform.addEventListener('submit', getCurrentConditions)
+}
