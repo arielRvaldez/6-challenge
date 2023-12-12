@@ -1,15 +1,11 @@
 var APIkey = "e5ef4fa9d75ce2035e478b8919ac7928";
 var currentCity = "";
-var lastCity = "";
 var foreCast = "";
 var currentweather = document.querySelector('#current-weather')
 var fivedayforecast = document.querySelector('#five-day-forecast')
 var searchform = document.querySelector('#search-form')
 
-renderCurrent("");
-renderForecast("");
-
-//current weather display//
+//current weather display and fetch//
 function getCurrentConditions(event) {
     event.preventDefault();
     let city = $('#search-city').val();
@@ -20,20 +16,19 @@ function getCurrentConditions(event) {
     fetch(queryURL)
         .then(function (response) {
             if (response.ok) {
-                console.log(response);
-                response.json().then(function (data) {
-                    console.log(data);
-                    displayWeather(data, city);
+                return response.json();
+            }
+        })
+            then(function (data) {
+                displayWeather(data, city);
                 });
             }
-        }
-        )
-}
 
 function displayWeather(data, city) {
     renderCurrent(city, data)
 }
 
+var renderCurrent= [];
 function renderCurrent(city, weather) {
     var temp = weather.main.temp;
     var wind = weather.wind.speed;
@@ -68,27 +63,27 @@ function getforecast(event) {
     let city = $('#search-city').val();
     foreCast = $('#search-city').val();
     //OpenWeather URL with imperial units with JSON//
-    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + lat + lon + "&units=imperial" + "&APPID=" + APIkey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + lat=30.27061 + lon=-97.75206 + "&units=imperial" + limit=5 +"&APPID=" + APIkey;
 
     fetch(queryURL)
         .then(function (response) {
             if (response.ok) {
                 console.log(response);
-                response.json().then(function (data) {
-                    console.log(data);
-                    displayWeather(data, city);
-                });
+                return response.json();
             }
-        }
-        )
-}
+            then(function (data) {
+                console.log(data);
+                displayWeather(data, city);
+            });
+        })
 
 function displayWeather(data, city) {
     renderForecast(city, data)
 }
 
+var renderForecast= [];
 function renderForecast(city, weather) {
-    for (let i = 0; i < response.list.length; i++) {
+    for (let i = 0; i < weather.list.length; i++) {
     var temp = weather.main.temp;
     var wind = weather.wind.speed;
     var humidity = weather.main.humidity;
@@ -117,18 +112,19 @@ function renderForecast(city, weather) {
     fivedayforecast.append(card);
 }
 //local storage//
-function addToLocalStorageArray(saveCity, cityName) {
+function addToLocalStorageArray(foreCast, city) {
     //retrieve the existing array from local storage
-     var existing =localStorage.getItem(saveCity);
+    var existing =localStorage.getItem(saveCity);
     //if no existing data, create an array otherwise convert storage to array//
     existing = existing ? JSON.parse(existing) : [];
     //add new city to array//
-    existing.push(cityName);
+    existing.push(city);
     //save back to local storage//
     localStorage.setItem(key, JSON.stringify(existing));
 }
 
 //pulls prior searched city//
+var history = [];
 var history = JSON.parse(localStorage.getItem("city-results")) || [];
 
 //creates row for searched cities
@@ -144,16 +140,7 @@ $(".history").on("click", "li", function () {
     weatherFunction($(this).text());
     weatherForecast($(this).text());
 });
-
-//when user chooses prior searched city
-function weatherFunction(searchTerm) {
-    $.ajax({
-        type: "GET",
-        url: "https://api.openweathermap.org/data/2.5/weather?q=" + searchTerm + "&appid=e5ef4fa9d75ce2035e478b8919ac7928"
-    })
-}
-//select previous searched city//
-history.addEventListener('click', buttonClickHandler);
-
+//eventlistener//
 searchform.addEventListener('submit', getCurrentConditions)
+}
 }
