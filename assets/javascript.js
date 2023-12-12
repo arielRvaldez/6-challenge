@@ -68,7 +68,7 @@ function getforecast(event) {
     let city = $('#search-city').val();
     foreCast = $('#search-city').val();
     //OpenWeather URL with imperial units with JSON//
-    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial" + "&APPID=" + APIkey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?=q=" + city + "&units=imperial" + "&APPID=" + APIkey;
 
     fetch(queryURL)
         .then(function (response) {
