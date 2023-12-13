@@ -6,6 +6,7 @@ var fivedayforecast = document.querySelector('#five-day-forecast')
 var searchform = document.querySelector('#search-form')
 
 //current weather display and fetch//
+var getCurrentConditions= [];
 function getCurrentConditions(event) {
     event.preventDefault();
     let city = $('#search-city').val();
@@ -57,13 +58,21 @@ function renderCurrent(city, weather) {
     currentweather.innerHTML= "";
     currentweather.append(card);
 }
-//5-day forecast display//
-function getforecast(event) {
+    //****5-day forecast display****//
+    function fivedayforecast(event) {
     event.preventDefault();
-    let city = $('#search-city').val();
-    foreCast = $('#search-city').val();
+    var dayData = response.list[i];
+        var dayTimeUTC = dayData.dt;
+        var timeZoneOffset = response.city.timezone;
+        var timeZoneOffsetHours = timeZoneOffset / 60 / 60;
+        var thisMoment = moment.unix(dayTimeUTC).utc().utcOffset(timeZoneOffsetHours);
+        var currentCity = document.getElementsByClassName('weather-overview')[0];
+        var currentTemp = document.getElementsByClassName('weather-temp')[0];
+        var foreCastBox = document.getElementsByClassName('component-forecast-box')[0];
+        let iconURL = "https://openweathermap.org/img/wn/10d@2x" + dayData.weather[0].icon + ".png";
+    
     //OpenWeather URL with imperial units with JSON//
-    let queryURL = "https://api.openweathermap.org/data/2.5/forecast? lat=30.27061&lon=-97.75206&units=imperial&limit=5&APPID=APIkey";
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast? lat=30.27061&lon=-97.75206&units=imperial&APPID=APIkey&cnt=5";
 
     fetch(queryURL)
         .then(function (response) {
@@ -78,40 +87,45 @@ function getforecast(event) {
             });
         };
 
-function displayWeather(data, city) {
-    renderForecast(city, data)
-}
-
-var renderForecast= [];
-function renderForecast(city, weather) {
+    var renderForecast= [];
+    function renderForecast(city, weather) {
     for (let i = 0; i < weather.list.length; i++) {
-    var temp = weather.main.temp;
-    var wind = weather.wind.speed;
-    var humidity = weather.main.humidity;
-    console.log(temp, wind, humidity);
-    var card = document.createElement('div');
-    var cardBody = document.createElement('div');
-    var heading = document.createElement('h2');
-    var tempEl = document.createElement('p');
-    var windEl = document.createElement('p');
-    var humidityEl = document.createElement('p');
-    card.setAttribute('class', 'card');
-    cardBody.setAttribute('class', 'card-body');
-    card.append(cardBody);
+        let city = $('#search-city').val();
+        foreCast = $('#search-city').val();   
 
-    heading.setAttribute('class', 'h3 card-title');
-    tempEl.setAttribute('class', 'card-text');
-    windEl.setAttribute('class', 'card-text');
-    humidityEl.setAttribute('class', 'card-text');
+        renderForecast(city, foreCast);
+        }
+    }
+    var renderData= [];
+    function renderData(city, foreCast){
+    var currentWeather = foreCast[0].weather[0];
+    var forecastHeader = `
+    <h2>5-Day Forecast:</h2><div id="fiveDayForecast" class="d-inline-flex flex-wrap">`;
 
-    heading.textContent = `${city} `;
-    tempEl.textContent = `Temp: ${temp}°F`;
-    windEl.textContent = `Wind: ${wind} MPH`;
-    humidityEl.textContent = `Humidity: ${humidity} %`;
-    cardBody.append(heading, tempEl, windEl, humidityEl);
+    currentTemp.innerHTML =
+    `<i class="wi ${applyIcon(currentWeather.icon)}"></i>
+    ${Math.round(foreCast[0].temp.day)} <i class="wi wi-degrees"></i>`;
+
+    currentCity.innerHTML = forecastHeader;
+
+     array.forEach(day => {
+        let date = new Date(day.dt * 1000);
+        let days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+        let name = days[date.getDay()];
+        let dayBlock = document.createElement("div");
+        dayBlock.className = 'forecast-item';
+        dayBlock.innerHTML =
+          `<div class="forecast-icon">${name}</div>
+          <div class="forecast-info">
+          <i class="wi ${applyIcon(day.weather[0].icon)}"></i>
+          <span class="degrees">${Math.round(day.temp.day)}
+          <i class="wi wi-degrees"></i></span></div>`;
+        foreCast.appendChild(dayBlock);
+      });
+    }
     fivedayforecast.innerHTML= "";
     fivedayforecast.append(card);
-}
+
 //local storage//
 function addToLocalStorageArray(foreCast, city) {
     //retrieve the existing array from local storage
@@ -143,5 +157,3 @@ $(".history").on("click", "li", function () {
 });
 //eventlistener//
 searchform.addEventListener('submit', getCurrentConditions)
-}
-}
