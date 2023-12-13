@@ -63,7 +63,7 @@ function getforecast(event) {
     let city = $('#search-city').val();
     foreCast = $('#search-city').val();
     //OpenWeather URL with imperial units with JSON//
-    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + "lat=30.27061" + "lon=-97.75206" + "&units=imperial" + "limit=5" +"&APPID=" + APIkey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast? lat=30.27061&lon=-97.75206&units=imperial&limit=5&APPID=APIkey";
 
     fetch(queryURL)
         .then(function (response) {
@@ -71,11 +71,12 @@ function getforecast(event) {
                 console.log(response);
                 return response.json();
             }
-            then(function (data) {
+        })
+            .then(function (data) {
                 console.log(data);
                 displayWeather(data, city);
             });
-        })
+        };
 
 function displayWeather(data, city) {
     renderForecast(city, data)
