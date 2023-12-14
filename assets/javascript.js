@@ -4,7 +4,7 @@ var getCurrentConditions = "";
 var foreCast = "";
 var currentweather = document.querySelector('#current-weather')
 var fivedayforecast = document.querySelector('#five-day-forecast')
-var searchForm = document.querySelector('#search-form')
+var searchBtn = document.getElementById('search-button')
 
 //current weather display and fetch//
 function getCurrentConditions(event) {
@@ -150,6 +150,7 @@ var history = JSON.parse(localStorage.getItem("city-results")) || [];
 for (var i = 0; i < history.length; i++) {
     createRow(history[i]);
 }
+
 //lists prior searched cities in order
 function createRow(text) {
     var listItem = $("<li>").addClass("list-group-item").text(text);
@@ -159,6 +160,7 @@ $(".history").on("click", "li", function () {
     weatherFunction($(this).text());
     weatherForecast($(this).text());
 });
+
 //eventlistener//
-//searchForm.addEventListener("city".getCurrentConditions);
+searchBtn.addEventListener('click', currentweather);
 
