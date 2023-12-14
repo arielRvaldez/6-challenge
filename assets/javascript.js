@@ -72,7 +72,7 @@ function renderCurrent(city, weather) {
         let iconURL = "https://openweathermap.org/img/wn/10d@2x" + dayData.weather[0].icon + ".png";
     
     //OpenWeather URL with imperial units with JSON//
-    let queryURL = "https://api.openweathermap.org/data/2.5/forecast? lat=30.27061&lon=-97.75206&units=imperial&APPID=APIkey&cnt=5";
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=30.27061&lon=-97.75206&units=imperial&APPID=APIkey&cnt=5";
 
     fetch(queryURL)
         .then(function (response) {
@@ -124,7 +124,7 @@ function renderCurrent(city, weather) {
       });
     }
     fivedayforecast.innerHTML= "";
-    fivedayforecast.append(card);
+    //fivedayforecast.append(dayBlock);
 
 //local storage//
 function addToLocalStorageArray(foreCast, city) {
