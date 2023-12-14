@@ -4,38 +4,13 @@ var getCurrentConditions = "";
 var foreCast = "";
 var currentweather = document.querySelector('#current-weather')
 var fivedayforecast = document.querySelector('#five-day-forecast')
-var searchBtn = document.getElementById('search-button')
+var searchBtn = document.getElementById('search-button')      
 
-//current weather display and fetch//
-function getCurrentConditions(event) {
-    event.preventDefault();
-
-    let city = $('#search-city').val();
-    console.log(city);
-    currentCity = $('#search-city').val();
-    //OpenWeather URL with imperial units with JSON//
-    let queryURL = 
-    'https://api.openweathermap.org/data/2.5/weather?q=' + city + 
-    '&units=imperial' +
-    '&APPID=' + 
-    APIkey;
-
-    fetch(queryURL)
-        .then(function (response) {
-            if (response.ok) {
-                console.log(response);
-                return response.json();
-            }
-        })
-            .then(function (data) {
-                displayWeather(data, city);
-                });
-            }
-
+//curent weather display//
 function displayWeather(data, city) {
     renderCurrent(city, data)
 }
-
+//current weather variables and conditions//
 function renderCurrent(city, weather) {
     var temp = weather.main.temp;
     var wind = weather.wind.speed;
@@ -77,7 +52,7 @@ function renderCurrent(city, weather) {
         var foreCastBox = document.getElementsByClassName('component-forecast-box')[0];
         let iconURL = "https://openweathermap.org/img/wn/10d@2x" + dayData.weather[0].icon + ".png";
     
-    //OpenWeather URL with imperial units with JSON//
+    //Forecast URL with imperial units with JSON//
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=30.27061&lon=-97.75206&units=imperial&APPID=APIkey&cnt=5";
 
     fetch(queryURL)
@@ -101,7 +76,7 @@ function renderCurrent(city, weather) {
         renderForecast(city, foreCast);
         }
     }
-    
+    //Forecast HTML//
     function renderData(city, foreCast){
     var currentWeather = foreCast[0].weather[0];
     var forecastHeader = `
@@ -133,9 +108,9 @@ function renderCurrent(city, weather) {
 
 //local storage//
 function addToLocalStorageArray(foreCast, city) {
-    //retrieve the existing array from local storage
+    //retrieve from local storage//
     var existing =localStorage.getItem(saveCity);
-    //if no existing data, create an array otherwise convert storage to array//
+    //if no storage data, create an array otherwise convert storage to array//
     existing = existing ? JSON.parse(existing) : [];
     //add new city to array//
     existing.push(city);
@@ -146,12 +121,12 @@ function addToLocalStorageArray(foreCast, city) {
 //pulls prior searched city//
 var history = JSON.parse(localStorage.getItem("city-results")) || [];
 
-//creates row for searched cities
+//creates new row for searched cities//
 for (var i = 0; i < history.length; i++) {
     createRow(history[i]);
 }
 
-//lists prior searched cities in order
+//lists prior searched cities in order searched//
 function createRow(text) {
     var listItem = $("<li>").addClass("list-group-item").text(text);
     $(".history").append(listItem);
@@ -162,5 +137,53 @@ $(".history").on("click", "li", function () {
 });
 
 //eventlistener//
-searchBtn.addEventListener('click', currentweather);
+searchBtn.addEventListener('click', function name(event) {
+    event.preventDefault();
+    console.log('hsldfjd')
+    var APIkey = "e5ef4fa9d75ce2035e478b8919ac7928";
 
+    let city = $('#search-city').val();
+    console.log(city);
+    currentCity = $('#search-city').val();
+    //current weather URL *****//
+    let queryURL = 
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&APPID=${APIkey}` 
+
+    console.log(queryURL)
+
+    fetch(queryURL)
+        .then(function (response) {
+            if (response.ok) {
+                console.log(response);
+                return response.json();
+            }
+        })
+            .then(function (data) {
+                displayWeather(data, city);
+                });
+});
+
+//current weather display and fetch//
+function getCurrentConditions() {
+    event.preventDefault();
+
+     let city = $('#search-city').val();
+     console.log(city);
+     currentCity = $('#search-city').val();
+
+     let queryURL = 
+     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&APPID=${APIkey};` 
+
+     console.log(queryURL)
+
+     fetch(queryURL)
+        .then(function (response) {
+             if (response.ok) {
+                 console.log(response);
+                return response.json();
+            }
+        })
+            .then(function (data) {
+                displayWeather(data, city);
+})}
+        
