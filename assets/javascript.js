@@ -1,26 +1,33 @@
 var APIkey = "e5ef4fa9d75ce2035e478b8919ac7928";
 var currentCity = "";
+var getCurrentConditions = "";
 var foreCast = "";
 var currentweather = document.querySelector('#current-weather')
 var fivedayforecast = document.querySelector('#five-day-forecast')
-var searchform = document.querySelector('#search-form')
+var searchForm = document.querySelector('#search-form')
 
 //current weather display and fetch//
-var getCurrentConditions= [];
 function getCurrentConditions(event) {
     event.preventDefault();
+
     let city = $('#search-city').val();
+    console.log(city);
     currentCity = $('#search-city').val();
     //OpenWeather URL with imperial units with JSON//
-    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial" + "&APPID=" + APIkey;
+    let queryURL = 
+    'https://api.openweathermap.org/data/2.5/weather?q=' + city + 
+    '&units=imperial' +
+    '&APPID=' + 
+    APIkey;
 
     fetch(queryURL)
         .then(function (response) {
             if (response.ok) {
+                console.log(response);
                 return response.json();
             }
         })
-            then(function (data) {
+            .then(function (data) {
                 displayWeather(data, city);
                 });
             }
@@ -29,7 +36,6 @@ function displayWeather(data, city) {
     renderCurrent(city, data)
 }
 
-var renderCurrent= [];
 function renderCurrent(city, weather) {
     var temp = weather.main.temp;
     var wind = weather.wind.speed;
@@ -87,7 +93,6 @@ function renderCurrent(city, weather) {
             });
         };
 
-    var renderForecast= [];
     function renderForecast(city, weather) {
     for (let i = 0; i < weather.list.length; i++) {
         let city = $('#search-city').val();
@@ -96,7 +101,7 @@ function renderCurrent(city, weather) {
         renderForecast(city, foreCast);
         }
     }
-    var renderData= [];
+    
     function renderData(city, foreCast){
     var currentWeather = foreCast[0].weather[0];
     var forecastHeader = `
@@ -112,9 +117,9 @@ function renderCurrent(city, weather) {
         let date = new Date(day.dt * 1000);
         let days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
         let name = days[date.getDay()];
-        let dayBlock = document.createElement("div");
-        dayBlock.className = 'forecast-item';
-        dayBlock.innerHTML =
+        let dayArea = document.createElement("div");
+        dayArea.className = 'forecast-item';
+        dayArea.innerHTML =
           `<div class="forecast-icon">${name}</div>
           <div class="forecast-info">
           <i class="wi ${applyIcon(day.weather[0].icon)}"></i>
@@ -139,7 +144,6 @@ function addToLocalStorageArray(foreCast, city) {
 }
 
 //pulls prior searched city//
-var history = [];
 var history = JSON.parse(localStorage.getItem("city-results")) || [];
 
 //creates row for searched cities
@@ -156,4 +160,5 @@ $(".history").on("click", "li", function () {
     weatherForecast($(this).text());
 });
 //eventlistener//
-searchform.addEventListener('submit', getCurrentConditions)
+//searchForm.addEventListener("city".getCurrentConditions);
+
